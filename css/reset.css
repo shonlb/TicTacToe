@@ -1,0 +1,54 @@
+/** Style Sheet to reset HTML elements for custom styling **/
+
+root {
+    display: block;
+    border:0px;
+    margin:0px;
+    padding:0px;
+    position:relative;
+}
+
+audio{
+	display:block;
+}
+
+figcaption{
+	display:block;
+}
+
+figure{
+	display:block;
+}
+
+nav{
+	display:block;
+}
+
+aside{
+	display:block;
+}
+
+section{
+	display:block;
+}
+
+footer{
+	display:block;
+}
+
+hgroup{
+	display:block;
+}
+
+header{
+	display:block;
+}
+
+article{
+	display:block;
+}
+
+img {
+	border:0px;
+	margin:1px;
+}

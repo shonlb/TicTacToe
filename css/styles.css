@@ -1,0 +1,117 @@
+/* -- Misc: Menus, Lists, Visibility, etc -- */
+
+
+
+.about {
+	width:55%;
+	float:left;
+}
+
+.author{
+	float:left;
+	box-shadow: 2px 0px 2px -2px silver;
+	margin-right:6px;
+}
+
+.contact{
+	width:40%;
+	float:right;
+	border-left:1px silver solid;
+	padding-left: 10px;
+}
+
+.cr{
+    border-top: 1px silver solid;
+    padding-top: 12px;
+}
+
+.fb{
+    margin-top:20px;
+    padding: 20px 6px 6px 6px;
+    border-top: 1px silver solid;
+    background-color:#eeeded;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	-o-border-radius: 5px;
+}
+
+.fb-comments{
+    margin-left:0px;
+    border-top:1px silver solid;
+}
+
+.icons{
+	margin: 0px 3px 0px 3px;
+}
+
+#newGame{
+	cursor:pointer;
+	text-align:center;
+	padding:4px;
+	white-space:nowrap;
+	font-size:15px;
+	font-weight:bold;
+}
+
+
+ul.tracker{
+	list-style:none;
+	margin-left:-30px;
+	margin-top:70px;
+	width:260px;
+	float:left;
+}
+
+ul.tracker li {
+	float:left;
+	margin:4px;
+	font-weight:bold;
+}
+
+.marker{
+	width:325px;
+	margin-left:auto;
+	margin-right:auto;
+	padding:6px 6px 6px 6px;
+	font-weight:bold;
+	font-size:14px;
+}
+
+.selMarker{
+	border:1px silver solid;
+	padding:1px 4px 1px 4px;
+	cursor:pointer;
+	color:black;
+	font-weight:bold;
+	float:right;
+	width:20px;
+	margin-right:4px;
+	text-align:center;
+}
+
+.msgbar {
+	margin-top:-30px;
+	margin-bottom:20px;
+	width:370px;
+	margin-left:auto;
+	margin-right:auto;
+}
+
+#rules{
+	float:right;
+	width:230px;
+	padding:8px;
+	margin-top:30px;
+	margin-right:8px;
+}
+
+#rules ul{
+	margin-left:-18px;
+
+}#turn{
+	color:#c60202;
+	font-size:15px;
+	font-weight:bold;
+	text-align:center;
+	padding:4px;
+}

@@ -1,0 +1,49 @@
+﻿/* -- Style Sheet for backgrounds, gradients, borders, angles and canvas -- */
+.row3, body{
+background: -moz-linear-gradient(left,  rgba(206,206,206,1) 1%, rgba(206,206,206,0) 46%, rgba(206,206,206,0) 53%, rgba(206,206,206,1) 100%); /* FF3.6+ */
+background: -webkit-gradient(linear, left top, right top, color-stop(1%,rgba(206,206,206,1)), color-stop(46%,rgba(206,206,206,0)), color-stop(53%,rgba(206,206,206,0)), color-stop(100%,rgba(206,206,206,1))); /* Chrome,Safari4+ */
+background: -webkit-linear-gradient(left,  rgba(206,206,206,1) 1%,rgba(206,206,206,0) 46%,rgba(206,206,206,0) 53%,rgba(206,206,206,1) 100%); /* Chrome10+,Safari5.1+ */
+background: -o-linear-gradient(left,  rgba(206,206,206,1) 1%,rgba(206,206,206,0) 46%,rgba(206,206,206,0) 53%,rgba(206,206,206,1) 100%); /* Opera 11.10+ */
+background: -ms-linear-gradient(left,  rgba(206,206,206,1) 1%,rgba(206,206,206,0) 46%,rgba(206,206,206,0) 53%,rgba(206,206,206,1) 100%); /* IE10+ */
+background: linear-gradient(left,  rgba(206,206,206,1) 1%,rgba(206,206,206,0) 46%,rgba(206,206,206,0) 53%,rgba(206,206,206,1) 100%); /* W3C */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#cecece', endColorstr='#cecece',GradientType=1 ); /* IE6-9 */				
+}
+
+.banner {
+	background-image:url('../images/banner.png');	
+	background-position:center top;
+	background-repeat:no-repeat;
+	margin-top:-20px;
+	min-height:250px;
+}
+
+.border-right{
+	border-right:10px white solid;
+	box-shadow: 4px 0px 5px -5px silver;
+}
+
+.border-bottom{
+	border-bottom:10px white solid;
+	box-shadow: 0px 4px 5px -5px silver;
+}
+
+.black {
+	background-color:black;
+	color:white;
+}
+
+.round-3{
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	-o-border-radius: 3px;
+}
+
+.round-9{
+	-moz-border-radius: 9px;
+	-webkit-border-radius: 9px;
+	-o-border-radius: 9px;
+}
+
+.b1ss{
+	border:1px silver solid;
+}

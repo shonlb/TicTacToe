@@ -1,0 +1,267 @@
+﻿<!DOCTYPE html>
+<html xmlns:fb="http://ogp.me/ns/fb#">
+<head>
+<title>TIC TAC TOE | by Shon L. Burns</title>
+<!-- Meta -->
+<meta name="robots" content="noindex"/>
+<meta name="author" content="Shon L. Burns"/>
+<meta name="Published" content="12/15/2011"/>
+
+<!-- Includes -->
+
+<!-- Styles -->
+<link rel="stylesheet" type="text/css" href="css/reset.css"/>
+<link rel="stylesheet" type="text/css" href="css/grid.css"/>
+<link rel="stylesheet" type="text/css" href="css/text.css"/>
+<link rel="stylesheet" type="text/css" href="css/backgrounds.css"/>
+<link rel="stylesheet" type="text/css" href="css/styles.css">
+<link rel="stylesheet" type="text/css" href="css/jquery.alerts.css"/>
+
+<link href='http://fonts.googleapis.com/css?family=Amatic+SC' rel='stylesheet' type='text/css'/>
+<link href='http://fonts.googleapis.com/css?family=Droid+Sans+Mono' rel='stylesheet' type='text/css'/>
+<!-- Scripts -->
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+<script type="text/javascript" src="js/jquery.alerts.js"></script>
+<script type="text/javascript" src="js/s.js"></script>
+<!--[if lt IE 9]> <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script> <![endif]-->
+
+<script type="text/javascript">
+
+/* Initialize game variables */
+
+   	//-- Players: values are "x" or "o"
+   	$cpu="";
+   	$human="";
+
+   	$currentPlayer="none"; // values are $cpu or $human
+
+	//-- Arrays to capture all moves during the current game
+	var cpuMoves=new Array();
+	var humanMoves=new Array();
+
+   	//--Captures current number of plays in current game
+   	$cpuPlays=0;
+   	$humanPlays=0;
+
+
+   	//--Keep score and game play count
+   	$humanWins=0;
+   	$cpuWins=0;
+
+	$humanLosses=0;
+	$cpuLosses=0;
+
+	$ties=0;
+	$ttl=0;
+
+	$(document).ready(function()
+	{
+		$("#humanWins").html($humanWins);
+		$("#humanLosses").html($humanLosses);
+		$("#cpuWins").html($cpuWins);
+		$("#cpuLosses").html($cpuLosses);
+		$("#ties").html($ties);
+		$("#total").html($ttl);
+
+		//clear board to start a nex game
+		$("#newGame").click(function()
+		{
+			resetGame();
+		});
+
+		//human player selects marker, starting game if electing to go second
+		$(".selMarker").click(function()
+		{
+			selMarker($(this).attr('id'));
+		});
+
+		//human player moves.  Also applies if player elects to go first
+		$(".playbox").click(function()
+		{
+			if($currentPlayer==$human)
+			{
+				humanPlayer($(this).attr("id").slice(4));
+			}else
+				{
+					//human player cannot place marker if not the player's turn
+					if($currentPlayer==$cpu)
+					{
+						cpuPlayer();
+					}else
+						{
+							//human player has not selected a marker
+							jAlert('Please select your marker to begin.', 'Alert Dialog');
+						}
+				}
+		});
+	});
+
+
+</script>
+</head>
+<body>
+<div id="fb-root"></div>
+<script>
+
+(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=150322571740557";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));
+
+</script>
+
+	<div class="pageframe">
+		<div class="row1">
+			<header>
+				<div class="banner">
+					<aside id="rules">
+						<h3>Rules</h3>
+						<ul>
+							<li>X always goes first</li>
+							<li>Tic-Tac-Toe happens when either you or I get 3 in a row...
+								<ul>
+									<li>Horizontally</li>
+									<li>Vertically</li>
+									<li>Diagonally</li>
+								</ul>
+							</li>
+							<li>If neither of us wins, the game results in a tie, also called a Cat Game.</li>
+						</ul>
+					</aside>
+					<nav>
+						<ul class="tracker">
+							<li><div id="newGame" class="black round-3">New Game</div></li>
+							<li class="c-both">Score:</li>
+							<li class="c-both w91 t-right">Human:</li>
+							<li class="w15">W:</li>
+							<li><div id="humanWins" class="w30 t-center b1ss no-wrap ml2"></div></li>
+							<li class="w15">L:</li>
+							<li><div id="humanLosses" class="w30 t-center b1ss no-wrap"></div></li>
+							<li class="c-both w91 t-right">AI:</li>
+							<li class="w15">W:</li>
+							<li><div id="cpuWins" class="w30 t-center b1ss no-wrap ml2"></div></li>
+							<li class="w15">L:</li>
+							<li><div id="cpuLosses" class="w30 t-center b1ss no-wrap"></div></li>
+							<li class="c-both t-right no-wrap w116">Cat Games:</li>
+							<li><div id="ties" class="w30 t-center b1ss no-wrap"></div></li>
+							<li class="c-both t-right w116">Total Games:</li>
+							<li><div id="total" class="w30 t-center b1ss no-wrap"></div></li>
+						</ul>
+					</nav>
+
+				</div>
+				<div class="msgbar b1ss round-9">
+					<div class="marker">
+						<div id="oMarker" class="selMarker round-3">O</div>
+						<div id="xMarker" class="selMarker round-3">X</div>
+						Select your marker to begin:
+					</div>
+					<div id="turn"></div>
+				</div>
+			</header>
+		</div>
+		<div class="row2">
+			<section id="game">
+				<div class="gamegrid">
+					<div id="cell1" class="playbox black border-right border-bottom click"></div>
+					<div id="cell2" class="playbox black border-right border-bottom click"></div>
+					<div id="cell3" class="playbox black border-bottom click"></div>
+					<div id="cell8" class="playbox black border-right border-bottom click"></div>
+					<div id="cell0" class="playbox black border-right border-bottom click"></div>
+					<div id="cell4" class="playbox black border-bottom click"></div>
+					<div id="cell7" class="playbox black border-right click"></div>
+					<div id="cell6" class="playbox black border-right click"></div>
+					<div id="cell5" class="playbox black border-bottom click"></div>
+					<div class="c-both"></div>
+				</div>
+			</section>
+		</div>
+	</div>
+	<div class="row3">
+		<footer>
+			<div class="about">
+				<header><h2>About Tic-Tac-Toe</h2></header>
+				<article>Probably the oldest game in history still played today, Tic-Tac-Toe
+				is an introduction to strategic board games. Two players
+				alternate placing their markers (X and O) on a square grid of
+				three columns and three rows until one achieves a sequence of three
+				in a row: horizontally, vertically or diagonally. Despite
+				its apparent simplicity, this play can actually allow up to 255,168 moves
+				leading to a win. Once the pattern of play becomes second nature
+				to the players, most games result in a tie called a Cat Game ...&quot;Cat&quot; happens to be &quot;Tac&quot; spelled backwards. (If I squint
+				really hard, I can see the cat chasing its tail.)<br/>
+				<br/>
+				Tic-Tac-Toe provides a foundation for playing other strategic
+				games based on grids and angles such as Chess, Othello and even
+				Connect Four. (I'll also throw Battleship in this mix.)<br/>
+				<br/>
+				<h3>Strategy:</h3>
+				The first two plays set the stage for a win or a tie. Any of
+				these plays is made to either a corner, side or to the center.
+				Any of these points has a triangular relationship to other
+				points on the board. Rotating the board does not change the
+				nature of the relationships. Although the objective is to
+				create a straight line across the grid, how the angles are
+				played determines the outcome. So there is actually a science to
+				playing. Knowing which space to secure so that the opponent cannot force a win, either assures a
+				win or a tie.<br/>
+				<br/>
+				All moves following the initial two plays are either a win, a block or
+				is a strategic play to not lose --prioritized in this order.<br/>
+				<br/>
+				<strong>Here's a tip:</strong> Try to avoid playing a side on
+				your first move. If you go first, there is a chance the game
+				will result in a tie. But you won't win unless you catch your
+				opponent sleeping!<br/>
+				<br/>
+				<strong>Did you know:</strong>
+				<ul>
+					<li>
+						Tic-Tac-Toe is the
+						<a target="_blank" href="http://en.wikipedia.org/wiki/OXO">first computer game</a> invented in 1952 by A.S. Douglas at Cambridge University.
+					</li>
+				</ul>
+				</article>
+			</div>
+			<div class="contact">
+				<header><h3>Developer's Corner</h3></header>
+				<article>
+					<img class="author" alt="Shon L. Burns" src="images/shonlb.png" width="90" height="110"/>
+					<strong>Shon L. Burns:</strong>
+					As of now, I know more about Tic-Tac-Toe than thought possible. This virtual version utilizes HTML5, CSS3, and JQuery/Javascript.
+					<br/>
+					<br class="c-both"/>If you "BEAT IT" or "BREAK IT" --Let me know!
+                                        <br/>
+                                        <br/>
+					<div>
+						<div style="width: 45%; float: right; padding-left: 6px; text-align:left;">
+							<a href="http://www.linkedin.com/in/shonlb"><img class="icons" src="images/linkedin.png"/></a>
+							<a target="_blank" href="http://www.twitter.com/shonlb"><img class="icons" src="images/twitter.png"/></a>
+							<a target="_blank" href="http://www.delicious.com/stacks/shonlb"><img class="icons" src="images/delicious.png"/></a>
+							<a href="http://burlace.com/feedback.asp" target="_blank"><img alt="Inbox Me" src="images/email.png" width="16" height="16"/></a>
+							<a href="http://www.burlace.com/digitally-challenged" target="_blank">
+							<img class="icons" alt="Digitally Challenged" longdesc="js/Digitally Challenged: HTML as a Second Language by Shon L. Burns" src="images/1323959716_wordpress.png" width="16" height="16"/></a></div>
+						<strong>Follow me:</strong>
+					</div>
+				</article>
+				<div class="c-both">
+				<h4>References</h4>
+				<cite>
+				Learn more about Tic-Tac-Toe on
+				<a target="_blank" href="http://en.wikipedia.org/wiki/Tic-tac-toe">Wikipedia
+				</a>
+				</cite>
+                <div class="fb">
+                                    <fb:like href="http://www.burlace.com/demo/games/tictactoe/" send="true" width="400" show_faces="true" colorscheme="light" font="trebuchet ms"></fb:like>
+		<div class="fb-comments" data-href="http://www.burlace.com/demo/games/tictactoe" data-num-posts="2" data-width="388"></div>
+                </div>
+			</div>
+			</div>
+			<div class="c-both cr"><br/>&copy;2011 Shon L. Burns | Burlace.com. All rights reserved.</div>
+			</footer>
+		</div>
+	</body>
+</html>
